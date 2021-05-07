@@ -1,0 +1,9 @@
+[
+    {
+        "model": "raterapp.user",
+        "fields": {
+            "bio": "me",
+            "user": 1
+        }
+    }
+]

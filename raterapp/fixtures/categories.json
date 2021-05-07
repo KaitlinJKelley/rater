@@ -1,0 +1,74 @@
+[
+    {
+        "model": "raterapp.category",
+        "fields": 
+            {
+                "label": "Strategy"
+            }
+        
+    },
+    {
+        "model": "raterapp.category",
+        "fields": 
+            {
+                "label": "Dice"
+            }
+    },
+    {
+        "model": "raterapp.category",
+        "fields": 
+            {
+                "label": "Card"
+            }
+    },
+    {
+        "model": "raterapp.category",
+        "fields": 
+            {
+                "label": "Miniature"
+            }
+    },
+    {
+        "model": "raterapp.category",
+        "fields": 
+            {
+                "label": "Deck Building"
+            }
+    },
+    {
+        "model": "raterapp.category",
+        "fields": 
+            {
+                "label": "Role Playing"
+            }
+    },
+    {
+        "model": "raterapp.category",
+        "fields": 
+            {
+                "label": "Sports"
+            }
+    },
+    {
+        "model": "raterapp.category",
+        "fields": 
+            {
+                "label": "Adventure"
+            }
+    },
+    {
+        "model": "raterapp.category",
+        "fields": 
+            {
+                "label": "Cooperative"
+            }
+    },
+    {
+        "model": "raterapp.category",
+        "fields": 
+            {
+                "label": "Battle"
+            }
+    }
+]
+

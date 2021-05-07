@@ -1,0 +1,11 @@
+[
+    {
+        "model": "raterapp.review",
+        "fields": {
+            "reviewer": 1,
+            "game": 1,
+            "text": "First game ever added, and it's a good one",
+            "rating": 4
+        }
+    }
+]
