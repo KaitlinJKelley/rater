@@ -6,4 +6,4 @@ class Review(models.Model):
     reviewer = ForeignKey("User", on_delete=CASCADE)
     game = ForeignKey("Game", on_delete=CASCADE)
     text = models.CharField(max_length=255)
-    rating = models.IntegerField
+    rating = models.IntegerField(default=0)

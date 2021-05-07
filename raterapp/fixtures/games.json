@@ -1,0 +1,14 @@
+[
+    {
+        "model": "raterapp.game",
+        "fields": {
+            "title": "Uno",
+            "description": "Fun card game where you can stack the draw 4 cards",
+            "designer": "Uno Inc.",
+            "release_year": 1847,
+            "num_of_players": "2 or more",
+            "time_to_play": 20,
+            "min_age": 7
+        }
+    }
+]
