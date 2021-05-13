@@ -15,15 +15,15 @@ class GameViewSet(ViewSet):
         game.description = request.data["description"]
         game.designer = request.data["designer"]
         game.release_year = request.data["releaseYear"]
-        game.num_of_players = request.data["numOfPlayers"]
+        game.num_of_players = request.data["numberOfPlayers"]
         game.time_to_play = request.data["timeToPlay"]
         game.min_age = request.data["minAge"]
 
-        categories = Category.in_bulk(request.data["categories"])
-        CategoryGame.set(categories)
+        categories = Category.objects.in_bulk(request.data["categories"])
 
         try:
             game.save()
+            game.categories.set(categories)
             serializer = GameSerializer(game, context={"request": request})
             return Response(serializer.data)
         except ValidationError as ex:
@@ -50,3 +50,4 @@ class GameSerializer(serializers.ModelSerializer):
     class Meta:
         model = Game
         fields = ('__all__')
+        depth = 1
