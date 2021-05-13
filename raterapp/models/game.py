@@ -8,4 +8,4 @@ class Game(models.Model):
     num_of_players = models.CharField(max_length=20)
     time_to_play = models. IntegerField(default=0)
     min_age = models.IntegerField(default=21)
-    category = models.ManyToManyField("Category", through="CategoryGame")
+    categories = models.ManyToManyField("Category", through="CategoryGame")
