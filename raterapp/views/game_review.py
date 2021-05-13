@@ -24,18 +24,17 @@ class GameReviewVewSet(ViewSet):
 
             return Response(serializer.data)
             
-            # return Response(serializer.data, status=status.HTTP_201_CREATED)
         except Exception:
             return HttpResponseServerError(Exception)
         
 class AuthUserSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = AuthUser
         fields = ["first_name", "last_name"]
 
 class ReviewerSerializer(serializers.ModelSerializer):
-    # Serialize auth_user to serialize reviewer
-    user = AuthUserSerializer(many=False)
+
     class Meta:
         model = User
         fields = ["user"]
@@ -45,4 +44,3 @@ class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
         fields = ('__all__')
-
