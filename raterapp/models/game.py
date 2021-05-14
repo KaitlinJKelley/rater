@@ -1,3 +1,4 @@
+from raterapp.models.review import Review
 from django.db import models
 
 class Game(models.Model):
@@ -9,3 +10,15 @@ class Game(models.Model):
     time_to_play = models. IntegerField(default=0)
     min_age = models.IntegerField(default=21)
     categories = models.ManyToManyField("Category", through="CategoryGame")
+
+    @property
+    def average_rating(self):
+        """Average rating calculated attribute for each game"""
+        ratings = Review.objects.filter(game=self)
+
+        # Sum all of the ratings for the game
+        total_rating = 0
+        for rating in ratings:
+            total_rating += rating.rating
+
+        self.__average_rating = total_rating/len(ratings)
