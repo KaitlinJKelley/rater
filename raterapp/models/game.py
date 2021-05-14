@@ -21,4 +21,5 @@ class Game(models.Model):
         for rating in ratings:
             total_rating += rating.rating
 
-        self.__average_rating = total_rating/len(ratings)
+        if len(ratings) > 0:
+            return total_rating/len(ratings)

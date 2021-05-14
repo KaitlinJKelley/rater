@@ -1,3 +1,4 @@
+from rest_framework.fields import SerializerMethodField
 from raterapp.models.review import Review
 from django.core.exceptions import ValidationError
 from rest_framework import status
@@ -71,10 +72,17 @@ class ReviewSerializer(serializers.ModelSerializer):
         fields = ('reviewer', 'text', 'rating', 'date_created')
 
 class GameSerializer(serializers.ModelSerializer):
-    reviews = ReviewSerializer(many=True)
+    reviews = SerializerMethodField()
 
     class Meta:
         model = Game
         fields = ('id','title', 'description', 'designer', 'release_year', 'num_of_players', 'time_to_play', 'min_age', 'categories','average_rating', 'reviews')
         depth = 1
+    
+    def get_reviews(self, instance):
+        reviews = instance.reviews.order_by('-date_created')
+        return ReviewSerializer(reviews, many=True).data
+
+
+
 
