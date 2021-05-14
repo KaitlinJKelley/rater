@@ -22,7 +22,7 @@ class GameReviewVewSet(ViewSet):
             review.save()
             serializer = ReviewSerializer(review, context={"request": request})
 
-            return Response(serializer.data)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
             
         except Exception:
             return HttpResponseServerError(Exception)

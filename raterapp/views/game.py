@@ -34,14 +34,14 @@ class GameViewSet(ViewSet):
 
     def retrieve(self, request, pk):
 
-        # try:
+        try:
             game = Game.objects.get(pk=pk)
 
             game_serializer = GameSerializer(game, context={'request': request})
 
             return Response(game_serializer.data)
-        # except Exception:
-        #     return HttpResponseServerError(Exception)
+        except Exception:
+            return HttpResponseServerError(Exception)
 
     def list(self, request):
 
@@ -75,6 +75,6 @@ class GameSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Game
-        fields = ('title', 'description', 'designer', 'release_year', 'num_of_players', 'time_to_play', 'min_age', 'categories','average_rating', 'reviews')
+        fields = ('id','title', 'description', 'designer', 'release_year', 'num_of_players', 'time_to_play', 'min_age', 'categories','average_rating', 'reviews')
         depth = 1
 
