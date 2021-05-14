@@ -68,7 +68,7 @@ class ReviewSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Review
-        fields = ('reviewer', 'text', 'rating')
+        fields = ('reviewer', 'text', 'rating', 'date_created')
 
 class GameSerializer(serializers.ModelSerializer):
     reviews = ReviewSerializer(many=True)

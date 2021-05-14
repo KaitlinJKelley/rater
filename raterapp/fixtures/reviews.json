@@ -5,7 +5,8 @@
             "reviewer": 1,
             "game": 1,
             "text": "First game ever added, and it's a good one",
-            "rating": 4
+            "rating": 4,
+            "date_created": "2021-10-04"
         }
     }
 ]
