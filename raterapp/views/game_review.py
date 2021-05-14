@@ -26,7 +26,7 @@ class GameReviewVewSet(ViewSet):
             
         except Exception:
             return HttpResponseServerError(Exception)
-        
+            
 class AuthUserSerializer(serializers.ModelSerializer):
 
     class Meta:
