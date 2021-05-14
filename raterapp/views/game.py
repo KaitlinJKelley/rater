@@ -1,3 +1,4 @@
+from raterapp.models.review import Review
 from django.core.exceptions import ValidationError
 from rest_framework import status
 from django.http import HttpResponseServerError
@@ -6,6 +7,7 @@ from rest_framework.response import Response
 from rest_framework import serializers
 from rest_framework import status
 from raterapp.models import User, Game, Category, CategoryGame
+from django.contrib.auth.models import User as AuthUser
 
 class GameViewSet(ViewSet):
     def create(self, request):
@@ -24,6 +26,7 @@ class GameViewSet(ViewSet):
         try:
             game.save()
             game.categories.set(categories)
+            
             serializer = GameSerializer(game, context={"request": request})
             return Response(serializer.data)
         except ValidationError as ex:
@@ -31,13 +34,14 @@ class GameViewSet(ViewSet):
 
     def retrieve(self, request, pk):
 
-        try:
+        # try:
             game = Game.objects.get(pk=pk)
-            serializer = GameSerializer(game, context={"request": request})
 
-            return Response(serializer.data)
-        except Exception:
-            return HttpResponseServerError(Exception)
+            game_serializer = GameSerializer(game, context={'request': request})
+
+            return Response(game_serializer.data)
+        # except Exception:
+        #     return HttpResponseServerError(Exception)
 
     def list(self, request):
 
@@ -46,8 +50,31 @@ class GameViewSet(ViewSet):
 
             return Response(serializer.data)         
 
+class AuthUserSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = AuthUser
+        fields = ["first_name", "last_name"]
+
+class ReviewerSerializer(serializers.ModelSerializer):
+    user = AuthUserSerializer(many=False)
+
+    class Meta:
+        model = User
+        fields = ("user",)
+
+class ReviewSerializer(serializers.ModelSerializer):
+    reviewer = ReviewerSerializer(many=False)
+
+    class Meta:
+        model = Review
+        fields = ('reviewer', 'text', 'rating')
+
 class GameSerializer(serializers.ModelSerializer):
+    reviews = ReviewSerializer(many=True)
+
     class Meta:
         model = Game
-        fields = ('__all__')
+        fields = ('title', 'description', 'designer', 'release_year', 'num_of_players', 'time_to_play', 'min_age', 'categories', 'reviews')
         depth = 1
+

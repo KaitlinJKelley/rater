@@ -14,6 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
+from raterapp.views.game_review import GameReviewVewSet
 from raterapp.views import GameViewSet, CategoryViewSet
 from django.contrib import admin
 from django.urls import path
@@ -25,6 +26,7 @@ from rest_framework import routers
 router = routers.DefaultRouter(trailing_slash=False)
 router.register(r'games', GameViewSet, 'game')
 router.register(r'categories', CategoryViewSet, 'category')
+router.register(r'reviews', GameReviewVewSet, 'review')
 
 urlpatterns = [
     path('admin/', admin.site.urls),

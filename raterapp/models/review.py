@@ -4,6 +4,6 @@ from django.db.models.fields.related import ForeignKey
 
 class Review(models.Model):
     reviewer = ForeignKey("User", on_delete=CASCADE)
-    game = ForeignKey("Game", on_delete=CASCADE)
+    game = ForeignKey("Game", on_delete=CASCADE, related_name="reviews")
     text = models.CharField(max_length=255)
     rating = models.IntegerField(default=0)
