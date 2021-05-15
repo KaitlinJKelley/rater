@@ -60,6 +60,15 @@ class GameViewSet(ViewSet):
     def update(self, request, pk):
         game = Game.objects.get(pk=pk)
 
+        game.title = request.data["title"]
+        game.description = request.data["description"]
+        game.designer = request.data["designer"]
+        game.release_year = request.data["releaseYear"]
+        game.num_of_players = request.data["numberOfPlayers"]
+        game.time_to_play = request.data["timeToPlay"]
+        game.min_age = request.data["minAge"]
+        game.categories.set(request.data["categories"])
+
         try:
             game.save()
             return Response({}, status=status.HTTP_204_NO_CONTENT)
