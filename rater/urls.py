@@ -15,7 +15,7 @@ Including another URLconf
 """
 
 from raterapp.views.game_review import GameReviewVewSet
-from raterapp.views import GameViewSet, CategoryViewSet
+from raterapp.views import GameViewSet, CategoryViewSet, GamePictureViewSet
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls import include
@@ -28,6 +28,7 @@ router = routers.DefaultRouter(trailing_slash=False)
 router.register(r'games', GameViewSet, 'game')
 router.register(r'categories', CategoryViewSet, 'category')
 router.register(r'reviews', GameReviewVewSet, 'review')
+router.register(r'pictures', GamePictureViewSet, 'picture')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -35,4 +36,4 @@ urlpatterns = [
     path('login', login_user),
     path('', include(router.urls)),
     path('api-auth', include('rest_framework.urls', namespace='rest_framework')),
-] + static(settings.MEDIA_URL, document_root= settings.MEDIA_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
