@@ -23,6 +23,7 @@ class GameViewSet(ViewSet):
         game.min_age = request.data["minAge"]
 
         categories = Category.objects.in_bulk(request.data["categories"])
+        game.owner = User.objects.get(user=request.auth.user)
 
         try:
             game.save()
@@ -38,6 +39,11 @@ class GameViewSet(ViewSet):
         try:
             game = Game.objects.get(pk=pk)
 
+            if game.owner.pk == request.auth.user.pk:
+                game.is_owner = True
+            else:
+                game.is_owner = False
+            
             game_serializer = GameSerializer(game, context={'request': request})
 
             return Response(game_serializer.data)
@@ -49,7 +55,26 @@ class GameViewSet(ViewSet):
             games = Game.objects.all() 
             serializer = GameSerializer(games, many=True, context={'request': request})  
 
-            return Response(serializer.data)         
+            return Response(serializer.data)    
+
+    def update(self, request, pk):
+        game = Game.objects.get(pk=pk)
+
+        game.title = request.data["title"]
+        game.description = request.data["description"]
+        game.designer = request.data["designer"]
+        game.release_year = request.data["releaseYear"]
+        game.num_of_players = request.data["numberOfPlayers"]
+        game.time_to_play = request.data["timeToPlay"]
+        game.min_age = request.data["minAge"]
+        game.categories.set(request.data["categories"])
+
+        try:
+            game.save()
+            return Response({}, status=status.HTTP_204_NO_CONTENT)
+        except Exception:
+            return Exception.args    
+        
 
 class AuthUserSerializer(serializers.ModelSerializer):
 
@@ -76,7 +101,7 @@ class GameSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Game
-        fields = ('id','title', 'description', 'designer', 'release_year', 'num_of_players', 'time_to_play', 'min_age', 'categories','average_rating', 'reviews')
+        fields = ('id','is_owner', 'title', 'description', 'designer', 'release_year', 'num_of_players', 'time_to_play', 'min_age', 'categories','average_rating', 'reviews')
         depth = 1
     
     def get_reviews(self, instance):

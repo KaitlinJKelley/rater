@@ -1,4 +1,6 @@
+from django.db.models.deletion import CASCADE
 from raterapp.models.review import Review
+from raterapp.models.user import User
 from django.db import models
 
 class Game(models.Model):
@@ -10,6 +12,7 @@ class Game(models.Model):
     time_to_play = models. IntegerField(default=0)
     min_age = models.IntegerField(default=21)
     categories = models.ManyToManyField("Category", through="CategoryGame")
+    owner = models.ForeignKey(User, on_delete=CASCADE)
 
     @property
     def average_rating(self):
@@ -23,3 +26,11 @@ class Game(models.Model):
 
         if len(ratings) > 0:
             return total_rating/len(ratings)
+
+    @property
+    def is_owner(self):
+        return self.__is_owner
+
+    @is_owner.setter
+    def is_owner(self, value):
+        self.__is_owner = value
