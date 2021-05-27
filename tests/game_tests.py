@@ -76,3 +76,17 @@ class GameTests(APITestCase):
         game.categories.set([self.cat1, self.cat2])
 
         self.assertEqual(game.categories.count(), 2)
+
+    def test_get_game(self):
+        response = self.client.get(f"/games/{self.game.id}")
+        json_response = json.loads(response.content)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        self.assertEqual(json_response["title"], self.game.title)
+        self.assertEqual(json_response["description"], self.game.description)
+        self.assertEqual(json_response["designer"], self.game.designer)
+        self.assertEqual(json_response["release_year"], self.game.release_year)
+        self.assertEqual(json_response["num_of_players"], self.game.num_of_players)
+        self.assertEqual(json_response["time_to_play"], self.game.time_to_play)
+        self.assertEqual(json_response["min_age"], self.game.min_age)
