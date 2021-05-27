@@ -30,7 +30,7 @@ class GameViewSet(ViewSet):
             game.categories.set(categories)
             
             serializer = GameSerializer(game, context={"request": request})
-            return Response(serializer.data)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
         except ValidationError as ex:
             return Response({"reason": ex.message}, status=status.HTTP_400_BAD_REQUEST)
 
