@@ -26,12 +26,24 @@ class GameTests(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
-        cat1 = Category()
-        cat1.label = "Card Game"
-        cat1.save()
-        cat1 = Category()
-        cat1.label = "Fun"
-        cat1.save()
+        self.cat1 = Category()
+        self.cat1.label = "Card Game"
+        self.cat1.save()
+        self.cat2 = Category()
+        self.cat2.label = "Fun"
+        self.cat2.save()
+
+        self.game = Game()
+        self.game.title = "Monopoly"
+        self.game.description = "Win all the money"
+        self.game.designer = "Monopoly, Inc."
+        self.game.release_year = 1873
+        self.game.num_of_players = "2 or more"
+        self.game.time_to_play = 80
+        self.game.min_age = 12
+        self.game.owner_id = 1
+        self.game.save()
+        self.game.categories.set([1, 2])
 
         self.data = {
             "title": "Uno",
@@ -41,7 +53,7 @@ class GameTests(APITestCase):
             "numberOfPlayers": "2 or more",
             "timeToPlay": 20,
             "minAge": 6,
-            "categories": [1, 2],
+            "categories": [1],
             "owner": 1
         }
 
@@ -58,3 +70,9 @@ class GameTests(APITestCase):
         self.assertEqual(json_response["num_of_players"], self.data["numberOfPlayers"])
         self.assertEqual(json_response["time_to_play"], self.data["timeToPlay"])
         self.assertEqual(json_response["min_age"], self.data["minAge"])
+
+    def test_game_category_set(self):
+        game = self.game
+        game.categories.set([self.cat1, self.cat2])
+
+        self.assertEqual(game.categories.count(), 2)
