@@ -31,6 +31,7 @@ router.register(r'reviews', GameReviewVewSet, 'review')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', include('raterappreports.urls')),
     path('register', register_user),
     path('login', login_user),
     path('', include(router.urls)),

@@ -100,6 +100,7 @@ class GameTests(APITestCase):
 
 
     def test_get_game(self):
+        # Create a review for game and verify added to response game 
         response = self.client.get(f"/games/{self.game.id}")
         json_response = json.loads(response.content)
 
