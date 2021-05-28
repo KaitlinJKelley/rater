@@ -90,3 +90,18 @@ class GameTests(APITestCase):
         self.assertEqual(json_response["num_of_players"], self.game.num_of_players)
         self.assertEqual(json_response["time_to_play"], self.game.time_to_play)
         self.assertEqual(json_response["min_age"], self.game.min_age)
+    
+    def test_update_game(self):
+        response = self.client.put(f"/games/{self.game.id}", self.data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+        response = self.client.get(f"/games/{self.game.id}")
+        json_response = json.loads(response.content)
+
+        self.assertEqual(json_response["title"], self.data["title"])
+        self.assertEqual(json_response["description"], self.data["description"])
+        self.assertEqual(json_response["designer"], self.data["designer"])
+        self.assertEqual(json_response["release_year"], self.data["releaseYear"])
+        self.assertEqual(json_response["num_of_players"], self.data["numberOfPlayers"])
+        self.assertEqual(json_response["time_to_play"], self.data["timeToPlay"])
+        self.assertEqual(json_response["min_age"], self.data["minAge"])
