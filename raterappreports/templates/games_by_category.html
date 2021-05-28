@@ -1,0 +1,19 @@
+{% load static%}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title> Rater Reports</title>
+    </head>
+    <body>
+        <h1>Games By Category Report</h1>
+        {%for cat in category_games_list%}
+            <h2>{{cat.label}}</h2>
+            <ul>
+                {%for game in cat.games%}
+                    <li>{{game.title}}</li>
+                {% endfor %}
+            </ul>
+        {% endfor %}
+    </body>
+</html>
