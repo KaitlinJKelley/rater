@@ -1,4 +1,5 @@
 import json
+from typing import Counter
 from raterapp.models.category import Category
 from raterapp.models import Game
 from rest_framework import status
@@ -76,3 +77,53 @@ class GameTests(APITestCase):
         game.categories.set([self.cat1, self.cat2])
 
         self.assertEqual(game.categories.count(), 2)
+
+    def test_get_all_games(self):
+        game = Game()
+        game.title = "Yahtzee"
+        game.description = "Roll the dice"
+        game.designer = "Yahtzee, Inc."
+        game.release_year = 1984
+        game.num_of_players = "2 or more?"
+        game.time_to_play = 7
+        game.min_age = 90
+        game.owner_id = 1
+        game.save()
+        game.categories.set([2])
+
+        response = self.client.get("/games")
+        # print(response.content)
+        json_response = json.loads(response.content)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(json_response), 2)
+
+
+    def test_get_game(self):
+        response = self.client.get(f"/games/{self.game.id}")
+        json_response = json.loads(response.content)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        self.assertEqual(json_response["title"], self.game.title)
+        self.assertEqual(json_response["description"], self.game.description)
+        self.assertEqual(json_response["designer"], self.game.designer)
+        self.assertEqual(json_response["release_year"], self.game.release_year)
+        self.assertEqual(json_response["num_of_players"], self.game.num_of_players)
+        self.assertEqual(json_response["time_to_play"], self.game.time_to_play)
+        self.assertEqual(json_response["min_age"], self.game.min_age)
+    
+    def test_update_game(self):
+        response = self.client.put(f"/games/{self.game.id}", self.data, format="json")
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+        response = self.client.get(f"/games/{self.game.id}")
+        json_response = json.loads(response.content)
+
+        self.assertEqual(json_response["title"], self.data["title"])
+        self.assertEqual(json_response["description"], self.data["description"])
+        self.assertEqual(json_response["designer"], self.data["designer"])
+        self.assertEqual(json_response["release_year"], self.data["releaseYear"])
+        self.assertEqual(json_response["num_of_players"], self.data["numberOfPlayers"])
+        self.assertEqual(json_response["time_to_play"], self.data["timeToPlay"])
+        self.assertEqual(json_response["min_age"], self.data["minAge"])
